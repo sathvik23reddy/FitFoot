@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
               style: TextButton.styleFrom(
                 foregroundColor: Colors.blueAccent, // Text Color
               ),
-              onPressed: () => Navigator.pushNamed(context, '/camera'),
+              onPressed: () => Navigator.pushNamed(context, '/imagePicker'),
               child: Text("Camera"))
         ]),
       ),
