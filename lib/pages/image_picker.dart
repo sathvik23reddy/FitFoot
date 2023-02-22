@@ -1,18 +1,21 @@
 import 'dart:io';
-import 'package:camera/camera.dart';
+import 'dart:typed_data';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cross_file_image/cross_file_image.dart';
+import 'dart:convert' as convert;
+import 'package:http/http.dart' as http;
 
 class imagePicker extends StatefulWidget {
   const imagePicker({super.key});
-
   @override
   _imagePickerState createState() => _imagePickerState();
 }
 
 class _imagePickerState extends State<imagePicker> {
   Image? imageFile;
+  String? base64Image;
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +44,22 @@ class _imagePickerState extends State<imagePicker> {
                           _getFromCamera();
                         },
                         child: Text("PICK FROM CAMERA"),
-                      )
+                      ),
                     ],
                   ),
                 )
-              : Container(child: imageFile),
+              : Scaffold(
+                  body: Column(
+                  children: [
+                    Container(child: imageFile),
+                    ElevatedButton(
+                      onPressed: () {
+                        postImage();
+                      },
+                      child: Text("SEND IMAGE AWAY"),
+                    )
+                  ],
+                )),
         ));
   }
 
@@ -56,8 +70,11 @@ class _imagePickerState extends State<imagePicker> {
       maxHeight: 1800,
     );
     if (pickedFile != null) {
+      Uint8List imageByte = await pickedFile.readAsBytes();
       setState(() {
         imageFile = Image(image: XFileImage(pickedFile));
+        base64Image = base64.encode(imageByte);
+        print("Gallery B64 ${base64Image!}");
       });
     }
   }
@@ -66,9 +83,30 @@ class _imagePickerState extends State<imagePicker> {
     final filePath = await Navigator.pushNamed(context, '/camera');
 
     if (filePath != null) {
+      Uint8List imageByte = await File(filePath as String).readAsBytes();
       setState(() {
-        imageFile = Image.file(File(filePath as String));
+        imageFile = Image.file(File(filePath));
+        base64Image = base64.encode(imageByte);
+        print("CAMERA B64 ${base64Image!}");
       });
+    }
+  }
+
+  Future<void> postImage() async {
+    print("Entered post");
+    final response = await http.post(
+      Uri.https('sathvik23reddy.pythonanywhere.com'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(<String, String>{
+        'Image': base64Image!,
+      }),
+    );
+    if (response.statusCode == 200) {
+      print(response.body);
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
     }
   }
 }
