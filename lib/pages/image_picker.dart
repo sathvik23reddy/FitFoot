@@ -95,7 +95,7 @@ class _imagePickerState extends State<imagePicker> {
   Future<void> postImage() async {
     print("Entered post");
     final response = await http.post(
-      Uri.https('sathvik23reddy.pythonanywhere.com'),
+      Uri.https('fitfoot-api.onrender.com'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
