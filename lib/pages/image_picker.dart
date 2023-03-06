@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:cross_file_image/cross_file_image.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 
 class imagePicker extends StatefulWidget {
   const imagePicker({super.key});
@@ -30,14 +31,43 @@ class _imagePickerState extends State<imagePicker> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            image1 == null
-                ? profileBoxUtil("Side Profile")
-                : SizedBox(width: 200.0, height: 300.0, child: image1),
-            image2 == null
-                ? profileBoxUtil("Top Profile")
-                : SizedBox(width: 200.0, height: 300.0, child: image2),
-            TextButton(
-                onPressed: () => postImage(), child: const Text('Upload'))
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                image1 == null
+                    ? profileBoxUtil("Side Profile", width, height)
+                    : SizedBox(
+                        width: width, height: height / 3.34, child: image1),
+                image1 == null
+                    ? Container()
+                    : TextButton(
+                        onPressed: () => dialogBoxUtil("Side Profile"),
+                        child: const Text("Rechoose Side Profile")),
+              ],
+            ),
+            Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  image2 == null
+                      ? profileBoxUtil("Top Profile", width, height)
+                      : SizedBox(
+                          width: width, height: height / 3.34, child: image2),
+                  image2 == null
+                      ? Container()
+                      : TextButton(
+                          onPressed: () => dialogBoxUtil("Top Profile"),
+                          child: const Text("Rechoose Top Profile"))
+                ]),
+            Center(
+              child: SizedBox(
+                width: width / 5,
+                height: height / 15,
+                child: TextButton(
+                    onPressed: () => postImage(), child: const Text('Upload')),
+              ),
+            )
           ],
         )));
   }
@@ -100,17 +130,17 @@ class _imagePickerState extends State<imagePicker> {
         });
   }
 
-  Widget profileBoxUtil(String name) {
+  Widget profileBoxUtil(String name, double width, double height) {
     return GestureDetector(
       onTap: () => dialogBoxUtil(name),
       child: SizedBox(
-          width: 200.0,
-          height: 300.0,
+          width: width,
+          height: height / 3.34,
           child: Card(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Center(child: Icon(Icons.insert_photo_rounded)),
+                const Center(child: Icon(Icons.insert_photo_rounded)),
                 Center(child: Text('$name')),
               ],
             ),
@@ -157,6 +187,13 @@ class _imagePickerState extends State<imagePicker> {
 
   Future<void> postImage() async {
     print("Entered post");
+    if (base64Image1 == null || base64Image2 == null) {
+      showOkAlertDialog(
+          context: context,
+          title: "Missing Images",
+          message: "Please input both the image profiles before uploading");
+      return;
+    }
     var url = ' '; //TBD
     final response = await http.post(
       url as Uri,
