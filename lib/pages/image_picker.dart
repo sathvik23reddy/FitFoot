@@ -194,15 +194,18 @@ class _imagePickerState extends State<imagePicker> {
           message: "Please input both the image profiles before uploading");
       return;
     }
-    var url = ' '; //TBD
-    final response = await http.post(
-      url as Uri,
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode(
-          <String, String>{'Image1': base64Image1!, 'Image2': base64Image2!}),
-    );
+    final response = await http
+        .post(
+          Uri.http('192.168.2.178:5000'),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+          },
+          body: jsonEncode(<String, String>{
+            'Image1': base64Image1!,
+            'Image2': base64Image2!
+          }),
+        )
+        .timeout(const Duration(seconds: 12));
     if (response.statusCode == 200) {
       print(response.body);
     } else {
