@@ -44,6 +44,10 @@ dependencies:
   cross_file_image: ^1.0.0
   http: ^0.13.5
   adaptive_dialog: ^1.8.2
+  firebase_core: ^2.7.1
+  cloud_firestore: ^4.4.4
+  lazy_load_listview: ^0.0.4
+  url_launcher: ^6.1.10
 
 dev_dependencies:
   flutter_test:

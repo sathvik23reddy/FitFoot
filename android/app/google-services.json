@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "438152716054",
+    "project_id": "fitfoot",
+    "storage_bucket": "fitfoot.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:438152716054:android:a6e07923a7b4550adf3a37",
+        "android_client_info": {
+          "package_name": "com.example.fitfoot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "438152716054-v5p37akfru9tkdfgugbth1m56loi19cg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7y2ZeZnGWRB3iwrYtptcChCPV1RdvNIk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "438152716054-v5p37akfru9tkdfgugbth1m56loi19cg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "438152716054-je6141vmh1tsehnc24i0d2s0e59n3sae.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.fitfoot"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

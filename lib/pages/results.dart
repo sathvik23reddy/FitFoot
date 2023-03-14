@@ -2,6 +2,7 @@
 
 import 'dart:ffi';
 
+import 'package:fitfoot/pages/shoe_recc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -26,7 +27,13 @@ class _ResultsState extends State<Results> {
         height: screenHeight / 24,
         child: FloatingActionButton(
           backgroundColor: Colors.pink[400],
-          onPressed: () {},
+          onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => shoeRecom(
+                        arch_type: widget.arch_type,
+                        toe_type: widget.toe_type,
+                      ))),
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(28.0))),
           child: Text("View Shoe Suggestions"),
