@@ -1,8 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:fitfoot/pages/results.dart';
 import 'package:cross_file_image/cross_file_image.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
@@ -205,10 +208,31 @@ class _imagePickerState extends State<imagePicker> {
             'Image2': base64Image2!
           }),
         )
-        .timeout(const Duration(seconds: 12));
+        .timeout(const Duration(seconds: 30));
     if (response.statusCode == 200) {
       print(response.body);
+      var data = json.decode(response.body);
+      var toe_width = data["toe_width"],
+          arch_height = data["arch_height"],
+          arch_type = data["arch_type"],
+          toe_type = data["toe_type"];
+      if (arch_height == -1) {
+        showOkAlertDialog(
+            context: context, message: "Please recapture image properly");
+      } else {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Results(
+                      arch_type: arch_type,
+                      toe_type: toe_type,
+                    )));
+      }
     } else {
+      showOkAlertDialog(
+          context: context,
+          title: "Error",
+          message: "Something went wrong, please try again later");
       print('Request failed with status: ${response.statusCode}.');
     }
   }
