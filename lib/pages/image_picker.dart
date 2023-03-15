@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:fitfoot/pages/results.dart';
 import 'package:cross_file_image/cross_file_image.dart';
-import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 
@@ -39,10 +38,10 @@ class _imagePickerState extends State<imagePicker> {
               height: height / 21,
               child: FloatingActionButton(
                   backgroundColor: Colors.purple,
-                  child: Text("Upload"),
                   onPressed: () => postImage(),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40.0))),
+                      borderRadius: BorderRadius.circular(40.0)),
+                  child: const Text("Upload")),
             ),
             body: Scaffold(
                 body: Column(
@@ -62,7 +61,7 @@ class _imagePickerState extends State<imagePicker> {
                         : TextButton(
                             onPressed: () => dialogBoxUtil("Side Profile"),
                             child: const Text("Rechoose Side Profile",
-                                style: TextStyle(color: Colors.black)),
+                                style: TextStyle(color: Colors.purple)),
                           ),
                   ],
                 ),
@@ -81,7 +80,7 @@ class _imagePickerState extends State<imagePicker> {
                           : TextButton(
                               onPressed: () => dialogBoxUtil("Top Profile"),
                               child: const Text("Rechoose Top Profile",
-                                  style: TextStyle(color: Colors.black)))
+                                  style: TextStyle(color: Colors.purple)))
                     ]),
                 SizedBox(
                   height: height / 15,
@@ -89,7 +88,7 @@ class _imagePickerState extends State<imagePicker> {
               ],
             ))),
         isLoading
-            ? Center(
+            ? const Center(
                 child: CircularProgressIndicator(),
               )
             : Container()
@@ -108,7 +107,7 @@ class _imagePickerState extends State<imagePicker> {
               content: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Container(
+                  SizedBox(
                     width: width / 4.5,
                     height: height / 11,
                     child: GestureDetector(
@@ -129,7 +128,7 @@ class _imagePickerState extends State<imagePicker> {
                       ),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: width / 4.5,
                     height: height / 11,
                     child: GestureDetector(
@@ -166,7 +165,7 @@ class _imagePickerState extends State<imagePicker> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Center(child: Icon(Icons.insert_photo_rounded)),
-                Center(child: Text('$name')),
+                Center(child: Text(name)),
               ],
             ),
           )),
@@ -188,7 +187,7 @@ class _imagePickerState extends State<imagePicker> {
         x == 1
             ? base64Image1 = base64.encode(imageByte)
             : base64Image2 = base64.encode(imageByte);
-        print("Gallery B64");
+        debugPrint("Gallery B64");
       });
     }
   }
@@ -209,7 +208,7 @@ class _imagePickerState extends State<imagePicker> {
         x == 1
             ? base64Image1 = base64.encode(imageByte)
             : base64Image2 = base64.encode(imageByte);
-        print("Camera B64");
+        debugPrint("Camera B64");
       });
     }
   }
@@ -218,7 +217,7 @@ class _imagePickerState extends State<imagePicker> {
     setState(() {
       isLoading = true;
     });
-    print("Entered post");
+    debugPrint("Entered post");
     if (base64Image1 == null || base64Image2 == null) {
       showOkAlertDialog(
           context: context,
@@ -242,7 +241,7 @@ class _imagePickerState extends State<imagePicker> {
       isLoading = false;
     });
     if (response.statusCode == 200) {
-      print(response.body);
+      debugPrint(response.body);
       var data = json.decode(response.body);
       var toe_width = data["toe_width"],
           arch_height = data["arch_height"],
@@ -265,7 +264,7 @@ class _imagePickerState extends State<imagePicker> {
           context: context,
           title: "Error",
           message: "Something went wrong, please try again later");
-      print('Request failed with status: ${response.statusCode}.');
+      debugPrint('Request failed with status: ${response.statusCode}.');
     }
   }
 }

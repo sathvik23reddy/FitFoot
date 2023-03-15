@@ -18,7 +18,7 @@ class _HomeState extends State<Home> {
     final screenWidth = MediaQuery.of(context).size.width,
         screenHeight = MediaQuery.of(context).size.height;
     return AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle(
+        value: const SystemUiOverlayStyle(
           statusBarColor: Color(0xFF0a0a0a),
         ),
         child: SafeArea(
@@ -41,19 +41,19 @@ class _HomeState extends State<Home> {
                           onPressed: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: ((context) => Info()))),
+                                  builder: ((context) => const Info()))),
                           child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.lock_open_sharp,
                                   size: 45,
                                 ),
                                 SizedBox(
                                   height: screenHeight / 28,
                                 ),
-                                Text(
+                                const Text(
                                   "Did you know?",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(fontSize: 25),
@@ -73,19 +73,20 @@ class _HomeState extends State<Home> {
                           onPressed: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: ((context) => Instructions()))),
+                                  builder: ((context) =>
+                                      const Instructions()))),
                           child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.info,
                                   size: 45,
                                 ),
                                 SizedBox(
                                   height: screenHeight / 28,
                                 ),
-                                Text(
+                                const Text(
                                   "Instructions",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(fontSize: 25),
@@ -115,14 +116,14 @@ class _HomeState extends State<Home> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.document_scanner_outlined,
                                 size: 45,
                               ),
                               SizedBox(
                                 height: screenHeight / 18,
                               ),
-                              Text(
+                              const Text(
                                 "Scan your foot",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(fontSize: 31),

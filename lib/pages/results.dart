@@ -1,11 +1,5 @@
-// ignore_for_file: prefer_interpolation_to_compose_strings
-
-import 'dart:ffi';
-
 import 'package:fitfoot/pages/shoe_recc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class Results extends StatefulWidget {
   final String arch_type, toe_type;
@@ -36,7 +30,7 @@ class _ResultsState extends State<Results> {
                       ))),
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(28.0))),
-          child: Text("View Shoe Suggestions"),
+          child: const Text("View Shoe Suggestions"),
         ),
       ),
       body: Column(
@@ -46,12 +40,7 @@ class _ResultsState extends State<Results> {
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 14),
             child: Text(
-              "Your foot has a " +
-                  widget.arch_type +
-                  "\nYour toes are " +
-                  (widget.toe_type == "Wide Toe Box"
-                      ? "wider than usual"
-                      : "of normal width"),
+              "Your foot has a ${widget.arch_type}\nYour toes are ${widget.toe_type == "Wide Toe Box" ? "wider than usual" : "of normal width"}",
               textAlign: TextAlign.center,
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
             ),
@@ -64,10 +53,7 @@ class _ResultsState extends State<Results> {
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 14, 10, 0),
             child: Text(
-              "Your foot tends to " +
-                  (widget.arch_type == "Flat Arch"
-                      ? "over pronate (roll inwards) as you land"
-                      : "have normal pronation"),
+              "Your foot tends to ${widget.arch_type == "Flat Arch" ? "over pronate (roll inwards) as you land" : "have normal pronation"}",
               textAlign: TextAlign.center,
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
             ),

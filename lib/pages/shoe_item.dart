@@ -1,8 +1,5 @@
-import 'dart:ui';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import '../models/shoe.dart';
 
 class showItem extends StatelessWidget {
@@ -29,15 +26,16 @@ class showItem extends StatelessWidget {
                   width: screenWidth / 3,
                   height: screenHeight / 23,
                   child: FittedBox(
-                    child: Image.network(x.image),
                     fit: BoxFit.cover,
+                    child: Image.network(x.image),
                   )),
               SizedBox(
                 height: screenHeight / 18,
               ),
               Text(
                 x.name,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
             ]),
           ),
@@ -51,7 +49,6 @@ class showItem extends StatelessWidget {
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
     } else {
-      print(await canLaunchUrl(uri));
       throw 'Could not launch $buy';
     }
   }

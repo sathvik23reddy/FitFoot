@@ -52,7 +52,7 @@ class __cameraState extends State<customCamera> {
 
             Navigator.pop(context, image.path);
           } catch (e) {
-            print(e);
+            debugPrint(e.toString());
           }
         },
         child: const Icon(Icons.camera_alt),

@@ -15,7 +15,7 @@ class Instructions extends StatelessWidget {
       child: SafeArea(
         child: PageView(scrollDirection: Axis.horizontal, children: [
           Scaffold(
-            backgroundColor: Color(0xFF0a0a0a),
+            backgroundColor: const Color(0xFF0a0a0a),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
             floatingActionButton: FloatingActionButton(
@@ -65,7 +65,7 @@ class Instructions extends StatelessWidget {
             ),
           ),
           Scaffold(
-            backgroundColor: Color(0xFF0a0a0a),
+            backgroundColor: const Color(0xFF0a0a0a),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
             floatingActionButton: SizedBox(
@@ -78,7 +78,7 @@ class Instructions extends StatelessWidget {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text("Proceed"),
+                child: const Text("Proceed"),
               ),
             ),
             body: Padding(

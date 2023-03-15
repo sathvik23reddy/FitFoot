@@ -1,7 +1,4 @@
-import 'package:fitfoot/pages/instructions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class Info extends StatelessWidget {
   const Info({super.key});
@@ -61,11 +58,11 @@ class Info extends StatelessWidget {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: const Text("Proceed"),
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.purple,
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0)))),
+                            borderRadius: BorderRadius.circular(30.0))),
+                    child: const Text("Proceed")),
                 SizedBox(
                   height: screenHeight / 32,
                 )
