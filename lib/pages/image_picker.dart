@@ -3,6 +3,8 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:convert';
+import 'package:camera/camera.dart';
+import 'package:fitfoot/pages/cam.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:fitfoot/pages/results.dart';
@@ -12,7 +14,8 @@ import 'package:http/http.dart' as http;
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 
 class imagePicker extends StatefulWidget {
-  const imagePicker({super.key});
+  const imagePicker({super.key, required this.cameraToUse});
+  final CameraDescription cameraToUse;
   @override
   _imagePickerState createState() => _imagePickerState();
 }
@@ -20,59 +23,78 @@ class imagePicker extends StatefulWidget {
 class _imagePickerState extends State<imagePicker> {
   Image? image1, image2;
   String? base64Image1, base64Image2;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("Image Picker Boss"),
-        ),
-        body: Scaffold(
-            body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return SafeArea(
+      child: Stack(children: [
+        Scaffold(
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: SizedBox(
+              width: width / 5,
+              height: height / 21,
+              child: FloatingActionButton(
+                  backgroundColor: Colors.purple,
+                  child: Text("Upload"),
+                  onPressed: () => postImage(),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40.0))),
+            ),
+            body: Scaffold(
+                body: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                image1 == null
-                    ? profileBoxUtil("Side Profile", width, height)
-                    : SizedBox(
-                        width: width, height: height / 3.34, child: image1),
-                image1 == null
-                    ? Container()
-                    : TextButton(
-                        onPressed: () => dialogBoxUtil("Side Profile"),
-                        child: const Text("Rechoose Side Profile")),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    image1 == null
+                        ? profileBoxUtil("Side Profile", width, height)
+                        : SizedBox(
+                            width: width, height: height / 3.34, child: image1),
+                    image1 == null
+                        ? Container()
+                        : TextButton(
+                            onPressed: () => dialogBoxUtil("Side Profile"),
+                            child: const Text("Rechoose Side Profile",
+                                style: TextStyle(color: Colors.black)),
+                          ),
+                  ],
+                ),
+                Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      image2 == null
+                          ? profileBoxUtil("Top Profile", width, height)
+                          : SizedBox(
+                              width: width,
+                              height: height / 3.34,
+                              child: image2),
+                      image2 == null
+                          ? Container()
+                          : TextButton(
+                              onPressed: () => dialogBoxUtil("Top Profile"),
+                              child: const Text("Rechoose Top Profile",
+                                  style: TextStyle(color: Colors.black)))
+                    ]),
+                SizedBox(
+                  height: height / 15,
+                )
               ],
-            ),
-            Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  image2 == null
-                      ? profileBoxUtil("Top Profile", width, height)
-                      : SizedBox(
-                          width: width, height: height / 3.34, child: image2),
-                  image2 == null
-                      ? Container()
-                      : TextButton(
-                          onPressed: () => dialogBoxUtil("Top Profile"),
-                          child: const Text("Rechoose Top Profile"))
-                ]),
-            Center(
-              child: SizedBox(
-                width: width / 5,
-                height: height / 15,
-                child: TextButton(
-                    onPressed: () => postImage(), child: const Text('Upload')),
-              ),
-            )
-          ],
-        )));
+            ))),
+        isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : Container()
+      ]),
+    );
   }
 
   Future dialogBoxUtil(String name) {
@@ -172,7 +194,11 @@ class _imagePickerState extends State<imagePicker> {
   }
 
   _getFromCamera(int x) async {
-    final filePath = await Navigator.pushNamed(context, '/camera');
+    final filePath = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                customCamera(camera_to_use: widget.cameraToUse)));
 
     if (filePath != null) {
       Uint8List imageByte = await File(filePath as String).readAsBytes();
@@ -189,6 +215,9 @@ class _imagePickerState extends State<imagePicker> {
   }
 
   Future<void> postImage() async {
+    setState(() {
+      isLoading = true;
+    });
     print("Entered post");
     if (base64Image1 == null || base64Image2 == null) {
       showOkAlertDialog(
@@ -209,6 +238,9 @@ class _imagePickerState extends State<imagePicker> {
           }),
         )
         .timeout(const Duration(seconds: 30));
+    setState(() {
+      isLoading = false;
+    });
     if (response.statusCode == 200) {
       print(response.body);
       var data = json.decode(response.body);

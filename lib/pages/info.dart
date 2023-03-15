@@ -63,9 +63,9 @@ class Info extends StatelessWidget {
                     },
                     child: const Text("Proceed"),
                     style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.purple,
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0)),
-                        primary: Colors.purple)),
+                            borderRadius: BorderRadius.circular(30.0)))),
                 SizedBox(
                   height: screenHeight / 32,
                 )

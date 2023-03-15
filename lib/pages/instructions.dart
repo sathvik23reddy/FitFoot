@@ -10,15 +10,16 @@ class Instructions extends StatelessWidget {
         screenHeight = MediaQuery.of(context).size.height;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
-        statusBarColor: Colors.black,
+        statusBarColor: Color(0xFF0a0a0a),
       ),
       child: SafeArea(
         child: PageView(scrollDirection: Axis.horizontal, children: [
           Scaffold(
-            backgroundColor: Colors.black,
+            backgroundColor: Color(0xFF0a0a0a),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
             floatingActionButton: FloatingActionButton(
+              backgroundColor: Colors.purple,
               onPressed: () {},
               child: const Icon(Icons.arrow_right),
             ),
@@ -64,12 +65,14 @@ class Instructions extends StatelessWidget {
             ),
           ),
           Scaffold(
-            backgroundColor: Colors.black,
+            backgroundColor: Color(0xFF0a0a0a),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
             floatingActionButton: SizedBox(
               width: screenWidth / 4,
+              height: screenHeight / 21,
               child: FloatingActionButton(
+                backgroundColor: Colors.purple,
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(28.0))),
                 onPressed: () {
