@@ -14,7 +14,9 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 
 class imagePicker extends StatefulWidget {
   const imagePicker({super.key, required this.cameraToUse});
+
   final CameraDescription cameraToUse;
+
   @override
   _imagePickerState createState() => _imagePickerState();
 }
@@ -227,7 +229,7 @@ class _imagePickerState extends State<imagePicker> {
     }
     final response = await http
         .post(
-          Uri.http('192.168.2.178:5000'),
+          Uri.http('192.168.203.67:5000'),
           headers: <String, String>{
             'Content-Type': 'application/json',
           },
@@ -247,18 +249,13 @@ class _imagePickerState extends State<imagePicker> {
           arch_height = data["arch_height"],
           arch_type = data["arch_type"],
           toe_type = data["toe_type"];
-      if (arch_height == -1) {
-        showOkAlertDialog(
-            context: context, message: "Please recapture image properly");
-      } else {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => Results(
-                      arch_type: arch_type,
-                      toe_type: toe_type,
-                    )));
-      }
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Results(
+                    arch_type: arch_type,
+                    toe_type: toe_type,
+                  )));
     } else {
       showOkAlertDialog(
           context: context,
